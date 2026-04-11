@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive — bkmgLab</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #fff;
+            color: #1a1a1a;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            background: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .logo img { height: 28px; display: block; }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            font-size: 13px; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 1.2px;
+            transition: opacity 0.2s ease;
+        }
+        nav a:hover { opacity: 0.6; }
+        nav a.active { border-bottom: 1.5px solid #1a1a1a; padding-bottom: 2px; }
+
+        main { padding: 140px 40px 120px; }
+
+        .page-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #999;
+            margin-bottom: 60px;
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .archive-item {
+            cursor: pointer;
+        }
+
+        .archive-image {
+            aspect-ratio: 16/9;
+            background: #f0f0f0;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .archive-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .archive-item:hover .archive-image img {
+            transform: scale(1.03);
+        }
+
+        .archive-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .archive-title {
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .archive-date {
+            font-size: 12px;
+            color: #999;
+            letter-spacing: 1px;
+        }
+
+        .archive-desc {
+            font-size: 13px;
+            color: #777;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        footer {
+            padding: 60px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-top: 1px solid #e8e8e8;
+        }
+        .footer-left p { font-size: 12px; color: #999; letter-spacing: 0.5px; }
+        .footer-right { display: flex; gap: 32px; }
+        .footer-right a {
+            font-size: 12px; text-transform: uppercase;
+            letter-spacing: 1px; color: #999; transition: color 0.2s ease;
+        }
+        .footer-right a:hover { color: #1a1a1a; }
+
+        @media (max-width: 768px) {
+            header { padding: 16px 20px; }
+            .logo img { height: 22px; }
+            nav { gap: 20px; }
+            nav a { font-size: 11px; }
+            main { padding: 120px 20px 80px; }
+            .archive-grid { grid-template-columns: 1fr; gap: 32px; }
+            footer { flex-direction: column; gap: 24px; padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">
+            <img src="assets/logo.png" alt="bkmgLab">
+        </a>
+        <nav>
+            <a href="shop.html">Shop</a>
+            <a href="archive.html" class="active">Archive</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <p class="page-title">Archive</p>
+        <div class="archive-grid">
+            <a href="#" class="archive-item">
+                <div class="archive-image"></div>
+                <div class="archive-meta">
+                    <h3 class="archive-title">Collection Title</h3>
+                    <span class="archive-date">2026</span>
+                </div>
+                <p class="archive-desc">Brief description of this collection or drop.</p>
+            </a>
+            <a href="#" class="archive-item">
+                <div class="archive-image"></div>
+                <div class="archive-meta">
+                    <h3 class="archive-title">Collection Title</h3>
+                    <span class="archive-date">2025</span>
+                </div>
+                <p class="archive-desc">Brief description of this collection or drop.</p>
+            </a>
+            <a href="#" class="archive-item">
+                <div class="archive-image"></div>
+                <div class="archive-meta">
+                    <h3 class="archive-title">Collection Title</h3>
+                    <span class="archive-date">2025</span>
+                </div>
+                <p class="archive-desc">Brief description of this collection or drop.</p>
+            </a>
+            <a href="#" class="archive-item">
+                <div class="archive-image"></div>
+                <div class="archive-meta">
+                    <h3 class="archive-title">Collection Title</h3>
+                    <span class="archive-date">2024</span>
+                </div>
+                <p class="archive-desc">Brief description of this collection or drop.</p>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-left">
+            <p>&copy; 2026 bkmgLab. All rights reserved.</p>
+        </div>
+        <div class="footer-right">
+            <a href="shop.html">Shop</a>
+            <a href="archive.html">Archive</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </footer>
+
+</body>
+</html>
