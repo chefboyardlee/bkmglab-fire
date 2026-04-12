@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop — bkmgLab</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #fff;
+            color: #1a1a1a;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            background: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .logo img { height: 28px; display: block; }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            font-size: 13px; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 1.2px;
+            transition: opacity 0.2s ease;
+        }
+        nav a:hover { opacity: 0.6; }
+        nav a.active { border-bottom: 1.5px solid #1a1a1a; padding-bottom: 2px; }
+
+        /* Product Hero */
+        .product-hero {
+            padding: 140px 40px 80px;
+            text-align: center;
+            background: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product-label {
+            font-family: 'Pretendard', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .product-title {
+            font-family: 'Pretendard', 'Helvetica Neue', sans-serif;
+            font-size: 64px;
+            font-weight: 800;
+            color: #1a1a1a;
+            line-height: 1.1;
+            margin-bottom: 32px;
+        }
+
+        /* Color Orbs */
+        .color-orbs {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 48px;
+        }
+
+        .color-orb {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        .orb-label {
+            font-family: 'Pretendard', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: 0.5px;
+        }
+
+        .color-orb.active .orb-label {
+            color: #1a1a1a;
+        }
+
+        .orb-circle {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease, transform 0.2s ease;
+            position: relative;
+        }
+
+        .orb-circle::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .color-orb.active .orb-circle::after {
+            border-color: #999;
+        }
+
+        .orb-circle.red { background: #e63226; }
+        .orb-circle.black { background: #1a1a1a; }
+        .orb-circle.silver { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); }
+
+        .color-orb:hover .orb-circle {
+            transform: scale(1.1);
+        }
+
+        /* Product Image */
+        .product-image-container {
+            width: 100%;
+            max-width: 600px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .product-oven-img {
+            max-width: 70%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Footer */
+        .site-footer {
+            padding: 60px 40px 40px;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            font-family: 'Noto Sans KR', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 2;
+            color: #444;
+        }
+
+        .footer-col a {
+            transition: color 0.2s ease;
+        }
+
+        .footer-col a:hover {
+            color: #1a1a1a;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            font-size: 18px;
+            color: #1a1a1a;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-social a:hover {
+            opacity: 0.6;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer-nav a {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: #444;
+            line-height: 2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 16px 20px; }
+            .logo img { height: 22px; }
+            nav { gap: 20px; }
+            nav a { font-size: 11px; }
+
+            .product-hero {
+                padding: 120px 20px 60px;
+                min-height: auto;
+            }
+
+            .product-title {
+                font-size: 40px;
+            }
+
+            .product-image-container {
+                height: 350px;
+                max-width: 100%;
+            }
+
+            .site-footer {
+                padding: 40px 20px 30px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">
+            <img src="assets/logo.png" alt="bkmgLab">
+        </a>
+        <nav>
+            <a href="shop.html" class="active">Shop</a>
+            <a href="archive.html">Archive</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section class="product-hero">
+        <img src="assets/tclogo.png" alt="TurboChef" style="height: 90px; margin-bottom: 8px;">
+        <h1 class="product-title">FIRE OVEN</h1>
+
+        <div class="color-orbs">
+            <button class="color-orb active" data-color="red" data-img="assets/oven-red.png">
+                <span class="orb-circle red"></span>
+                <span class="orb-label">R</span>
+            </button>
+            <button class="color-orb" data-color="black" data-img="assets/oven-black.png">
+                <span class="orb-circle black"></span>
+                <span class="orb-label">B</span>
+            </button>
+            <button class="color-orb" data-color="silver" data-img="assets/oven-silver.png">
+                <span class="orb-circle silver"></span>
+                <span class="orb-label">S</span>
+            </button>
+        </div>
+
+        <div class="product-image-container">
+            <img class="product-oven-img" id="productOvenImg" src="assets/oven-red.png" alt="TurboChef Fire Oven">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <!-- Social Column -->
+            <div class="footer-col">
+                <h3>Social</h3>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/bkmg_lab" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://m.blog.naver.com/bkmglab" target="_blank" rel="noopener" style="font-weight:800; font-family:'Helvetica Neue',sans-serif;">N</a>
+                </div>
+                <div class="footer-nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="archive.html">Archive</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+
+            <!-- Company Column -->
+            <div class="footer-col">
+                <h3>Company</h3>
+                <p>
+                    (주)비케이엠지 | bkmgLab<br>
+                    대표 | 이병욱<br>
+                    tel | 010-8580-3933<br>
+                    mail | <a href="mailto:info@bkmglab.com">info@bkmglab.com</a><br>
+                    office | GIFC 타워 킨텍스로 240 902호<br>
+                    경기도 일산서구 고양시
+                </p>
+            </div>
+
+            <!-- Test Kitchen / Bank Info Column -->
+            <div class="footer-col">
+                <h3>Test Kitchen | 예약</h3>
+                <p>
+                    test kitchen | GIFC 타워 킨텍스로 240 102-103호<br>
+                    경기도 일산서구 고양시<br>
+                    010-8580-3933<br>
+                    카카오: bkmglab<br>
+                    09:00 - 18:00 연중무휴
+                </p>
+                <h3 style="margin-top: 32px;">Bank Info</h3>
+                <p>
+                    하나은행 | 비케이엠지<br>
+                    161-910006-39304
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Copyright&copy; bkmgLab All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        // Color orb switching
+        const orbs = document.querySelectorAll('.color-orb');
+        const ovenImg = document.getElementById('productOvenImg');
+
+        orbs.forEach(orb => {
+            orb.addEventListener('click', () => {
+                orbs.forEach(o => o.classList.remove('active'));
+                orb.classList.add('active');
+
+                // Fade out, swap image, fade in
+                ovenImg.style.opacity = '0';
+                setTimeout(() => {
+                    ovenImg.src = orb.getAttribute('data-img');
+                    ovenImg.style.opacity = '1';
+                }, 300);
+            });
+        });
+    </script>
+
+</body>
+</html>
