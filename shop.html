@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop — bkmgLab</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #fff;
+            color: #1a1a1a;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: none;
+        }
+        .logo img { height: 28px; display: block; }
+        nav { display: flex; gap: 32px; }
+        nav a {
+            font-size: 13px; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 1.2px;
+            transition: opacity 0.2s ease;
+        }
+        nav a:hover { opacity: 0.6; }
+        nav a.active { border-bottom: 1.5px solid #1a1a1a; padding-bottom: 2px; }
+
+        /* Product Hero */
+        .product-hero {
+            padding: 140px 40px 80px;
+            text-align: center;
+            background: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product-label {
+            font-family: 'Pretendard', 'Helvetica Neue', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .product-title {
+            font-family: 'Pretendard', 'Helvetica Neue', sans-serif;
+            font-size: 64px;
+            font-weight: 400;
+            color: #1a1a1a;
+            line-height: 1.1;
+            margin-bottom: 32px;
+        }
+
+        /* Color Orbs */
+        .color-orbs {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 48px;
+        }
+
+        .color-orb {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        .orb-label {
+            font-family: 'Pretendard', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: 0.5px;
+        }
+
+        .color-orb.active .orb-label {
+            color: #1a1a1a;
+        }
+
+        .orb-circle {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease, transform 0.2s ease;
+            position: relative;
+        }
+
+        .orb-circle::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .color-orb.active .orb-circle::after {
+            border-color: #999;
+        }
+
+        .orb-circle.red { background: #e63226; }
+        .orb-circle.black { background: #1a1a1a; }
+        .orb-circle.silver { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); }
+
+        .color-orb:hover .orb-circle {
+            transform: scale(1.1);
+        }
+
+        /* Product Image */
+        .product-image-container {
+            width: 100%;
+            max-width: 600px;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .product-oven-img {
+            max-width: 49%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: opacity 0.4s ease;
+        }
+
+        .color-name {
+            text-align: center;
+            margin-top: -16px;
+        }
+
+        .color-name-en {
+            display: block;
+            font-family: 'Pretendard', 'Helvetica Neue', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .color-name-kr {
+            display: block;
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: #999;
+        }
+
+        /* Quantity & Quote */
+        .quote-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .quote-row .qty-label {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            color: #1a1a1a;
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: #fff;
+            border: none;
+            width: 31px;
+            height: 31px;
+            font-size: 18px;
+            color: #ccc;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+
+        .qty-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .qty-value {
+            width: 40px;
+            height: 31px;
+            text-align: center;
+            font-family: 'Pretendard', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1a1a;
+            border: none;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            outline: none;
+            -moz-appearance: textfield;
+        }
+
+        .qty-value::-webkit-outer-spin-button,
+        .qty-value::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .quote-btn {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            background: #00b7d3;
+            border: none;
+            border-radius: 4px;
+            padding: 9px 24px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            text-decoration: none;
+        }
+
+        .quote-btn:hover {
+            background: #009bb5;
+        }
+
+        /* Quote Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #1a1a1a;
+        }
+
+        .modal-title {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 32px;
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .modal-form-group label {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #1a1a1a;
+        }
+
+        .modal-form-group input,
+        .modal-form-group textarea {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 15px;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid #ddd;
+            outline: none;
+            background: transparent;
+            color: #1a1a1a;
+            transition: border-color 0.3s ease;
+        }
+
+        .modal-form-group input:focus,
+        .modal-form-group textarea:focus {
+            border-bottom-color: #00b7d3;
+        }
+
+        .modal-form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .modal-form-group input::placeholder,
+        .modal-form-group textarea::placeholder {
+            color: #ccc;
+        }
+
+        .modal-summary {
+            display: flex;
+            gap: 12px;
+            padding: 16px 0;
+            background: transparent;
+            border-top: 1px solid #e8e8e8;
+            border-bottom: 1px solid #e8e8e8;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .modal-summary-item {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+        }
+
+        .modal-summary-item:first-child {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .modal-summary-item:last-child {
+            flex-shrink: 0;
+            text-align: right;
+        }
+
+        .modal-summary-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 4px;
+        }
+
+        .modal-summary-value {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .modal-submit {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            background: #00b7d3;
+            border: none;
+            border-radius: 4px;
+            padding: 14px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .modal-submit:hover {
+            background: #009bb5;
+        }
+
+        .modal-thankyou {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            gap: 16px;
+        }
+
+        .modal-thankyou.active {
+            display: flex;
+        }
+
+        .modal-thankyou-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #00b7d3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 28px;
+        }
+
+        .modal-thankyou h3 {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .modal-thankyou p {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 15px;
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .modal-thankyou-close {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            background: #00b7d3;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 32px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .modal-thankyou-close:hover {
+            background: #009bb5;
+        }
+
+        /* Product Details Accordion */
+        .product-details {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 40px 80px;
+        }
+
+        .product-details-title {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .product-details-sub {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            color: #999;
+            margin-bottom: 32px;
+        }
+
+        .spec-accordion {
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .spec-section {
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .spec-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .spec-header h3 {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .spec-arrow {
+            font-size: 16px;
+            color: #999;
+            transition: transform 0.3s ease;
+            line-height: 1;
+        }
+
+        .spec-section.open .spec-arrow {
+            transform: rotate(180deg);
+        }
+
+        .spec-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .spec-section.open .spec-content {
+            max-height: 1000px;
+        }
+
+        .spec-list {
+            padding: 0 0 24px;
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .spec-list li {
+            list-style: disc;
+            margin-left: 20px;
+            margin-bottom: 4px;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            padding-bottom: 24px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .spec-row:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 15px;
+            color: #666;
+        }
+
+        .spec-value {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        @media (max-width: 768px) {
+            .product-details {
+                padding: 40px 20px 60px;
+            }
+            .spec-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Certifications */
+        .certifications {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 40px 60px;
+        }
+
+        .cert-label {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .cert-icons {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .cert-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cert-icon svg,
+        .cert-icon img {
+            height: 36px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .cert-icon span {
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+            font-size: 10px;
+            color: #999;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .certifications {
+                padding: 0 20px 40px;
+            }
+            .cert-icons {
+                gap: 24px;
+            }
+        }
+
+        /* Footer */
+        .site-footer {
+            padding: 60px 40px 40px;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        .footer-col p,
+        .footer-col a {
+            font-family: 'Noto Sans KR', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 2;
+            color: #444;
+        }
+
+        .footer-col a {
+            transition: color 0.2s ease;
+        }
+
+        .footer-col a:hover {
+            color: #1a1a1a;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+
+        .footer-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            font-size: 18px;
+            color: #1a1a1a;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-social a:hover {
+            opacity: 0.6;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .footer-nav a {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: #444;
+            line-height: 2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid #e8e8e8;
+        }
+
+        .footer-bottom p {
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            html {
+                scroll-snap-type: y proximity;
+            }
+
+            header { padding: 16px 20px; }
+            .logo img { height: 22px; }
+            nav { gap: 20px; }
+            nav a { font-size: 11px; }
+
+            .product-hero {
+                padding: 60px 20px 20px;
+                min-height: 100vh;
+                min-height: 100dvh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-evenly;
+                scroll-snap-align: start;
+            }
+
+            .product-hero img[src*="tclogo"] {
+                height: 50px !important;
+                margin-bottom: 2px !important;
+            }
+
+            .product-title {
+                font-size: 28px;
+                margin-bottom: 8px;
+            }
+
+            .color-orbs {
+                margin-bottom: 0;
+            }
+
+            .product-image-container {
+                height: 40vh;
+                max-width: 100%;
+                flex-shrink: 1;
+            }
+
+            .color-name {
+                margin-top: -8px;
+            }
+
+            .color-name-en {
+                font-size: 16px;
+            }
+
+            .color-name-kr {
+                font-size: 12px;
+            }
+
+            .quote-row {
+                margin-top: 8px;
+            }
+
+            .product-details {
+                scroll-snap-align: start;
+            }
+
+            .site-footer {
+                padding: 40px 20px 30px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 36px;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">
+            <img src="assets/logo.png" alt="bkmgLab">
+        </a>
+        <nav>
+            <a href="shop.html" class="active">Shop</a>
+            <a href="archive.html">Archive</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section class="product-hero">
+        <img src="assets/tclogo.png" alt="TurboChef" style="height: 90px; margin-bottom: 8px;">
+        <h1 class="product-title">FIRE OVEN</h1>
+
+        <div class="color-orbs">
+            <button class="color-orb active" data-color="red" data-img="assets/oven-red.png" data-name-en="Rosso Corsa Red" data-name-kr="로쏘 코르사 레드">
+                <span class="orb-circle red"></span>
+                <span class="orb-label">R</span>
+            </button>
+            <button class="color-orb" data-color="black" data-img="assets/oven-black.png" data-name-en="Jet Black" data-name-kr="제트 블랙">
+                <span class="orb-circle black"></span>
+                <span class="orb-label">B</span>
+            </button>
+            <button class="color-orb" data-color="silver" data-img="assets/oven-silver.png" data-name-en="Sterling Silver" data-name-kr="스털링 실버">
+                <span class="orb-circle silver"></span>
+                <span class="orb-label">S</span>
+            </button>
+        </div>
+
+        <div class="product-image-container">
+            <img class="product-oven-img" id="productOvenImg" src="assets/oven-red.png" alt="TurboChef Fire Oven">
+        </div>
+
+        <div class="color-name" id="colorName">
+            <span class="color-name-en">Rosso Corsa Red</span>
+            <span class="color-name-kr">로쏘 코르사 레드</span>
+        </div>
+
+        <div class="quote-row">
+            <span class="qty-label">Quantity:</span>
+            <div class="qty-control">
+                <button class="qty-btn" id="qtyMinus">−</button>
+                <input type="number" class="qty-value" id="qtyValue" value="1" min="1" max="100">
+                <button class="qty-btn" id="qtyPlus">+</button>
+            </div>
+            <button class="quote-btn" id="openQuoteModal">견적 요청</button>
+        </div>
+    </section>
+
+    <!-- Product Details -->
+    <div class="product-details">
+        <h2 class="product-details-title">제품 상세 정보</h2>
+        <p class="product-details-sub">Fire Oven Specifications</p>
+
+        <div class="spec-accordion">
+            <!-- Features & Benefits -->
+            <div class="spec-section open">
+                <div class="spec-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h3>특징 및 장점</h3>
+                    <span class="spec-arrow">&#9662;</span>
+                </div>
+                <div class="spec-content">
+                    <ul class="spec-list">
+                        <li>상하부 컨벡션 모터를 갖춘 카운터탑 컨벡션 오븐으로 최대 450°C 도달</li>
+                        <li>UL (KNLZ) 인증 촉매 컨버터 시스템으로 구동되는 무배기 운전</li>
+                        <li>직관적인 원터치 인터페이스와 알기 쉬운 아이콘</li>
+
+                        <li>레드, 블랙, 스테인리스 스틸 색상 제공</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Product Specifications -->
+            <div class="spec-section">
+                <div class="spec-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h3>제품 사양</h3>
+                    <span class="spec-arrow">&#9662;</span>
+                </div>
+                <div class="spec-content">
+                    <div class="spec-grid">
+                        <div class="spec-row">
+                            <span class="spec-label">SKU (식별자)</span>
+                            <span class="spec-value">FRE-9600-1</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">내부 재질</span>
+                            <span class="spec-value">스테인리스 스틸</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">조작 방식</span>
+                            <span class="spec-value">터치패드</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">자동 조리 프로그래밍</span>
+                            <span class="spec-value">아니오</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">열원 유형</span>
+                            <span class="spec-value">High Speed Convection</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">고속 컨벡션 플레이트 위치</span>
+                            <span class="spec-value">상부 및 하부</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">무배기 조리 기술</span>
+                            <span class="spec-value">예</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">최대 온도</span>
+                            <span class="spec-value">450°C</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">최저 온도</span>
+                            <span class="spec-value">50°C</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">조리실 깊이</span>
+                            <span class="spec-value">37.5 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">조리실 높이</span>
+                            <span class="spec-value">5.1 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">조리실 너비</span>
+                            <span class="spec-value">37.5 cm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Energy Specifications -->
+            <div class="spec-section">
+                <div class="spec-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h3>에너지 사양</h3>
+                    <span class="spec-arrow">&#9662;</span>
+                </div>
+                <div class="spec-content">
+                    <div class="spec-grid">
+                        <div class="spec-row">
+                            <span class="spec-label">주 에너지 유형</span>
+                            <span class="spec-value">전기</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">전기 전압</span>
+                            <span class="spec-value">208/240V</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">전기 주파수</span>
+                            <span class="spec-value">50-60 Hz</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">전기 위상</span>
+                            <span class="spec-value">단상 (1PH)</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">전기 킬로와트</span>
+                            <span class="spec-value">4.8 kW</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">총 전력</span>
+                            <span class="spec-value">4800 W</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">도체당 전류</span>
+                            <span class="spec-value">20.5 A</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">총 전류</span>
+                            <span class="spec-value">30 A</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">전기 도체선 수</span>
+                            <span class="spec-value">1</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">전기 연결 (플러그) 유형</span>
+                            <span class="spec-value">NEMA 6-30</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">전용 회로 필요</span>
+                            <span class="spec-value">예</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weight & Dimensions -->
+            <div class="spec-section">
+                <div class="spec-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h3>무게 및 치수 사양</h3>
+                    <span class="spec-arrow">&#9662;</span>
+                </div>
+                <div class="spec-content">
+                    <div class="spec-grid">
+                        <div class="spec-row">
+                            <span class="spec-label">제품 깊이</span>
+                            <span class="spec-value">47.1 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">제품 높이</span>
+                            <span class="spec-value">55.1 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">제품 너비</span>
+                            <span class="spec-value">48.3 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">제품 무게</span>
+                            <span class="spec-value">44.9 kg</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">필요 간격: 뒤쪽</span>
+                            <span class="spec-value">5.1 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">필요 간격: 앞쪽</span>
+                            <span class="spec-value">0 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">필요 간격: 왼쪽</span>
+                            <span class="spec-value">5.1 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">필요 간격: 오른쪽</span>
+                            <span class="spec-value">5.1 cm</span>
+                        </div>
+                        <div class="spec-row">
+                            <span class="spec-label">필요 간격: 위쪽</span>
+                            <span class="spec-value">5.1 cm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certifications -->
+    <div class="certifications">
+        <p class="cert-label">인증 | Certifications</p>
+        <div class="cert-icons">
+            <div class="cert-icon">
+                <img src="assets/ansi-logo.png" alt="ANSI" style="height: 24px;">
+            </div>
+            <div class="cert-icon">
+                <img src="assets/c_u_lus.png" alt="cULus" style="height: 46px;">
+            </div>
+            <div class="cert-icon">
+                <img src="assets/ce.png" alt="CE">
+            </div>
+            <div class="cert-icon">
+                <img src="assets/made_in_usa.png" alt="Made in USA" style="height: 51px; position: relative; top: 5px;">
+            </div>
+            <div class="cert-icon">
+                <img src="assets/tuv-logo.png" alt="TÜV Product Service">
+            </div>
+            <div class="cert-icon">
+                <img src="assets/kccert.png" alt="KC 인증">
+            </div>
+        </div>
+    </div>
+
+    <!-- Quote Modal -->
+    <div class="modal-overlay" id="quoteModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h2 class="modal-title">견적 요청</h2>
+            <p class="modal-subtitle">아래 정보를 입력해주시면 빠르게 견적을 보내드리겠습니다.</p>
+
+            <div class="modal-summary">
+                <div class="modal-summary-item">
+                    <div class="modal-summary-label">색상</div>
+                    <div class="modal-summary-value" id="modalColor">Rosso Corsa Red</div>
+                </div>
+                <div class="modal-summary-item">
+                    <div class="modal-summary-label">수량</div>
+                    <div class="modal-summary-value" id="modalQty">1</div>
+                </div>
+            </div>
+
+            <form class="modal-form" action="https://formspree.io/f/meevqkln" method="POST">
+                <input type="hidden" name="product" value="TurboChef Fire Oven">
+                <input type="hidden" name="color" id="formColor" value="Rosso Corsa Red">
+                <input type="hidden" name="quantity" id="formQty" value="1">
+
+                <div class="modal-form-group">
+                    <label for="modalName">이름 | Name</label>
+                    <input type="text" id="modalName" name="name" placeholder="이름을 입력해주세요" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="modalEmail">이메일 | Email</label>
+                    <input type="email" id="modalEmail" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="modalPhone">연락처 | Phone</label>
+                    <input type="tel" id="modalPhone" name="phone" placeholder="010-0000-0000" required>
+                </div>
+                <div class="modal-form-group">
+                    <label for="modalCompany">회사/업체명 | Company</label>
+                    <input type="text" id="modalCompany" name="company" placeholder="회사 또는 업체명">
+                </div>
+                <div class="modal-form-group">
+                    <label for="modalMessage">추가 요청사항 | Message</label>
+                    <textarea id="modalMessage" name="message" placeholder="추가 문의사항이 있으시면 입력해주세요..."></textarea>
+                </div>
+                <button type="submit" class="modal-submit">견적 요청 보내기</button>
+            </form>
+
+            <div class="modal-thankyou" id="modalThankyou">
+                <div class="modal-thankyou-icon">✓</div>
+                <h3>감사합니다!</h3>
+                <p>견적 요청이 접수되었습니다.<br>빠른 시일 내에 연락드리겠습니다.</p>
+                <p style="font-size: 13px; color: #aaa;">Thank you — we'll be in touch shortly.</p>
+                <button class="modal-thankyou-close" id="thankyouClose">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <!-- Social Column -->
+            <div class="footer-col">
+                <h3>Social</h3>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/bkmg_lab" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://m.blog.naver.com/bkmglab" target="_blank" rel="noopener" style="font-weight:800; font-family:'Helvetica Neue',sans-serif;">N</a>
+                </div>
+                <div class="footer-nav">
+                    <a href="index.html">Home</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="archive.html">Archive</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+
+            <!-- Company Column -->
+            <div class="footer-col">
+                <h3>Company</h3>
+                <p>
+                    (주)비케이엠지 | bkmgLab<br>
+                    대표 | 이병욱<br>
+                    tel | 010-8580-3933<br>
+                    mail | <a href="mailto:info@bkmglab.com">info@bkmglab.com</a><br>
+                    office | GIFC 타워 킨텍스로 240 902호<br>
+                    경기도 일산서구 고양시
+                </p>
+            </div>
+
+            <!-- Test Kitchen / Bank Info Column -->
+            <div class="footer-col">
+                <h3>Test Kitchen | 예약</h3>
+                <p>
+                    test kitchen | GIFC 타워 킨텍스로 240 102-103호<br>
+                    경기도 일산서구 고양시<br>
+                    010-8580-3933<br>
+                    카카오: bkmglab<br>
+                    09:00 - 18:00 연중무휴
+                </p>
+                <h3 style="margin-top: 32px;">Bank Info</h3>
+                <p>
+                    하나은행 | 비케이엠지<br>
+                    161-910006-39304
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Copyright&copy; bkmgLab All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        // Color orb switching
+        const orbs = document.querySelectorAll('.color-orb');
+        const ovenImg = document.getElementById('productOvenImg');
+        const colorNameEn = document.querySelector('.color-name-en');
+        const colorNameKr = document.querySelector('.color-name-kr');
+
+        orbs.forEach(orb => {
+            orb.addEventListener('click', () => {
+                orbs.forEach(o => o.classList.remove('active'));
+                orb.classList.add('active');
+
+                // Fade out, swap image and name, fade in
+                const color = orb.getAttribute('data-color');
+                ovenImg.style.opacity = '0';
+                setTimeout(() => {
+                    ovenImg.src = orb.getAttribute('data-img');
+                    ovenImg.style.maxWidth = (color === 'silver') ? '59.5%' : '49%';
+                    ovenImg.style.opacity = '1';
+                    colorNameEn.textContent = orb.getAttribute('data-name-en');
+                    colorNameKr.textContent = orb.getAttribute('data-name-kr');
+                }, 300);
+            });
+        });
+        // Quantity controls
+        const qtyMinus = document.getElementById('qtyMinus');
+        const qtyPlus = document.getElementById('qtyPlus');
+        const qtyValue = document.getElementById('qtyValue');
+
+        qtyMinus.addEventListener('click', () => {
+            let val = parseInt(qtyValue.value) || 1;
+            if (val > 1) qtyValue.value = val - 1;
+        });
+
+        qtyPlus.addEventListener('click', () => {
+            let val = parseInt(qtyValue.value) || 1;
+            if (val < 100) qtyValue.value = val + 1;
+        });
+
+        qtyValue.addEventListener('change', () => {
+            let val = parseInt(qtyValue.value) || 1;
+            if (val < 1) val = 1;
+            if (val > 100) val = 100;
+            qtyValue.value = val;
+        });
+
+        // Quote Modal
+        const quoteModal = document.getElementById('quoteModal');
+        const openBtn = document.getElementById('openQuoteModal');
+        const closeBtn = document.getElementById('modalClose');
+        const modalColor = document.getElementById('modalColor');
+        const modalQty = document.getElementById('modalQty');
+        const formColor = document.getElementById('formColor');
+        const formQty = document.getElementById('formQty');
+
+        openBtn.addEventListener('click', () => {
+            const activeOrb = document.querySelector('.color-orb.active');
+            const nameEn = activeOrb.getAttribute('data-name-en');
+            const nameKr = activeOrb.getAttribute('data-name-kr');
+            const colorName = nameEn + ' / ' + nameKr;
+            const qty = qtyValue.value;
+
+            modalColor.innerHTML = nameEn + '<br><span style="font-weight:400; font-size:13px; color:#666;">' + nameKr + '</span>';
+            modalQty.textContent = qty;
+            formColor.value = colorName;
+            formQty.value = qty;
+
+            quoteModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            quoteModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        quoteModal.addEventListener('click', (e) => {
+            if (e.target === quoteModal) {
+                quoteModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Handle form submission → show thank you
+        const modalForm = document.querySelector('.modal-form');
+        const modalThankyou = document.getElementById('modalThankyou');
+        const thankyouClose = document.getElementById('thankyouClose');
+
+        modalForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = new FormData(modalForm);
+            try {
+                const res = await fetch(modalForm.action, {
+                    method: 'POST',
+                    body: data,
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (res.ok) {
+                    modalForm.style.display = 'none';
+                    modalThankyou.classList.add('active');
+                }
+            } catch (err) {
+                modalForm.submit();
+            }
+        });
+
+        thankyouClose.addEventListener('click', () => {
+            quoteModal.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => {
+                modalForm.style.display = '';
+                modalForm.reset();
+                modalThankyou.classList.remove('active');
+            }, 400);
+        });
+    </script>
+
+</body>
+</html>
